@@ -27,29 +27,29 @@ namespace ToSic.Nop.Plugins.RazorMessageService.ScheduledTasks
 
 		public CompileRazorMessagesTask(ILogger logger, ILanguageService languageService, IMessageTemplateService messageTemplateService, IStoreService storeService, ISettingService settingService)
 		{
-			_logger = logger;
-			_languageService = languageService;
-			_messageTemplateService = messageTemplateService;
-			_storeService = storeService;
-			_settingService = settingService;
+            this._logger = logger;
+            this._languageService = languageService;
+            this._messageTemplateService = messageTemplateService;
+            this._storeService = storeService;
+            this._settingService = settingService;
 		}
 
 		public void Execute()
 		{
 			var logMessage = new StringBuilder();
-			var loggingEnabled = _settingService.GetSettingByKey("razormessageservice.compiletask.enablelogging", false);
+			var loggingEnabled = this._settingService.GetSettingByKey("razormessageservice.compiletask.enablelogging", false);
 			if (loggingEnabled)
-				_logger.InsertLog(LogLevel.Debug, EventLogMessageStart, logMessage.ToString());
+                this._logger.InsertLog(LogLevel.Debug, EventLogMessageStart, logMessage.ToString());
 
 			try
 			{
-				var stores = _storeService.GetAllStores();
+				var stores = this._storeService.GetAllStores();
 				var model = new DummyMessageModel();
 
 				foreach (var store in stores)
 				{
-					var storeLanguages = _languageService.GetAllLanguages(storeId: store.Id);
-					var activeMessageTemplates = _messageTemplateService.GetAllMessageTemplates(store.Id).Where(t => t.IsActive);
+					var storeLanguages = this._languageService.GetAllLanguages(storeId: store.Id);
+					var activeMessageTemplates = this._messageTemplateService.GetAllMessageTemplates(store.Id).Where(t => t.IsActive);
 					model.Store = store;
 
 					foreach (var messageTemplate in activeMessageTemplates)
@@ -75,12 +75,12 @@ namespace ToSic.Nop.Plugins.RazorMessageService.ScheduledTasks
 				}
 
 				if (loggingEnabled)
-					_logger.InsertLog(LogLevel.Debug, EventLogMessageCompleted, logMessage.ToString());
+                    this._logger.InsertLog(LogLevel.Debug, EventLogMessageCompleted, logMessage.ToString());
 			}
 			catch (Exception ex)
 			{
 				if (loggingEnabled)
-					_logger.InsertLog(LogLevel.Error, EventLogMessageError, logMessage + ex.Message + " " + ex.StackTrace);
+                    this._logger.InsertLog(LogLevel.Error, EventLogMessageError, logMessage + ex.Message + " " + ex.StackTrace);
 			}
 		}
 

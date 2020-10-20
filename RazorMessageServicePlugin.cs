@@ -10,19 +10,19 @@ namespace ToSic.Nop.Plugins.RazorMessageService
 
 		public RazorMessageServicePlugin(IScheduleTaskService scheduleTaskService)
 		{
-			_scheduleTaskService = scheduleTaskService;
+            this._scheduleTaskService = scheduleTaskService;
 		}
 
 		public override void Install()
 		{
-			CompileRazorMessagesTask.EnsureScheduleTask(_scheduleTaskService);
+			CompileRazorMessagesTask.EnsureScheduleTask(this._scheduleTaskService);
 
 			base.Install();
 		}
 
 		public override void Uninstall()
 		{
-			CompileRazorMessagesTask.RemoveScheduleTask(_scheduleTaskService);
+			CompileRazorMessagesTask.RemoveScheduleTask(this._scheduleTaskService);
 
 			base.Uninstall();
 		}
