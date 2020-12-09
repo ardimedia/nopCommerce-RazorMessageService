@@ -45,7 +45,7 @@ namespace ToSic.Nop.Plugins.RazorMessageService.Services
 			catch (TemplateCompilationException ex)
 			{
 				result = "TemplateCompilationException: ";
-				ex.Errors.ToList().ForEach(p => result += p.ErrorText);
+FieldAccessException 				ex.CompilerErrors.ToList().ForEach(p => result += p.ErrorText);
 				success = false;
 			}
 			catch (Exception ex)
